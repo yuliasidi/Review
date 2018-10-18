@@ -13,7 +13,7 @@ pe <- pe%>%
                               SS.calc == "FM" ~ "Farrington-Manning",
                               TRUE ~ as.character(SS.calc)))%>%
   mutate(anal.CI1 = case_when(anal.CI == "Not specified" ~ "Not specified, but presented",
-                              grepl("Chi|Pearson",anal.CI) ~ "Chi-square",
+                              grepl("Chi|Pearson or",anal.CI) ~ "Not specified, but presented",
                               grepl("Exact",anal.CI) ~ "Exact",
                               grepl("Newcombe|Wilson",anal.CI) ~ "Newcombe-Wilson",
                               grepl("Miettinen and Nurminen|FM",anal.CI) ~ "Miettinen-Nurminen/Farrington-Manning",
