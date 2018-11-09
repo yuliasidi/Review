@@ -1,0 +1,9 @@
+*.csv
+*.docx
+*.Rdata
+*.xlsx
+*.Rproj
+.DS_Store
+.Rhistory
+.Rproj.user
+Review*

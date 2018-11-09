@@ -6,8 +6,8 @@ library(reshape2)
 pe <- readr::read_csv("Proportions PE Methods in practice refined.csv")
 
 pe <- pe%>%
-  mutate(SS.calc1 = case_when(SS.calc == "Newcomb-Wilson (5000 simulations)" ~ "Newcombe-Wilson",
-                              SS.calc == "Wilson" ~ "Newcombe-Wilson",
+  mutate(SS.calc1 = case_when(SS.calc == "Newcomb-Wilson (5000 simulations)" ~ "Newcombe",
+                              SS.calc == "Wilson" ~ "Newcombe",
                               SS.calc == "Z-Test" ~ "Wald",
                               is.na(SS.calc)==T ~ "Not reported",
                               SS.calc == "FM" ~ "Farrington-Manning",
@@ -15,8 +15,8 @@ pe <- pe%>%
   mutate(anal.CI1 = case_when(anal.CI == "Not specified" ~ "Not specified, but presented",
                               grepl("Chi|Pearson or",anal.CI) ~ "Not specified, but presented",
                               grepl("Exact",anal.CI) ~ "Exact",
-                              grepl("Newcombe|Wilson",anal.CI) ~ "Newcombe-Wilson",
-                              grepl("Miettinen and Nurminen|FM",anal.CI) ~ "Miettinen-Nurminen/Farrington-Manning",
+                              grepl("Newcombe|Wilson",anal.CI) ~ "Newcombe",
+                              grepl("Miettinen and Nurminen|FM",anal.CI) ~ "Farrington-Manning",
                               grepl("GLM|Linear mixed model",anal.CI) ~ "GLM",
                               grepl("Z-test|Wald|Blackwelder",anal.CI) ~ "Wald",
                               #anal.CI =="Clopper-Pearson" ~ "Exact",
@@ -295,7 +295,7 @@ pixiedust::dust()%>%
                              border = c('bottom')
   )%>%
   pixiedust::sprinkle_colnames(m='',var='',p='%')%>%
-  pixiedust::sprinkle_caption('Study design attributes')%>%
+  pixiedust::sprinkle_caption('Study design attributes (n=71)')%>%
   pixiedust::sprinkle_label('tab1')%>%
   pixiedust::sprinkle(rows = 1:4,
                       cols = 1,
@@ -490,7 +490,7 @@ table2%>%
                              border = c('bottom')
   )%>%
   pixiedust::sprinkle_colnames(m='',var='',p='%')%>%
-  pixiedust::sprinkle_caption('Study analysis attributes')%>%
+  pixiedust::sprinkle_caption('Study analysis attributes (n=71)')%>%
   pixiedust::sprinkle_label('tab2')%>%
   pixiedust::sprinkle(rows = 1:3,
                       cols = 1,
@@ -587,7 +587,7 @@ table3%>%
                              border = c('bottom')
   )%>%
   pixiedust::sprinkle_colnames(m='',var='',p='%')%>%
-  pixiedust::sprinkle_caption('Incomplete data amount and handling')%>%
+  pixiedust::sprinkle_caption('Incomplete data amount and handling (n=64)')%>%
   pixiedust::sprinkle_label('tab3')%>%
   pixiedust::sprinkle(rows = 1:5,
                       cols = 1,

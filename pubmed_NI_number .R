@@ -12,11 +12,11 @@ g <- ggplot2::ggplot(pub.n, aes(x = year, y = n)) +
   geom_point() +
   ggplot2::xlab("Year") +
   ggplot2::ylab("Number of published papers") +
-  ggplot2::ggtitle("Number of published non-inferiroty papers by year (Pubmed)") +
+  #ggplot2::ggtitle("Number of published non-inferiroty papers by year (Pubmed)") +
   ggplot2::theme_bw() +
   ggplot2::scale_x_continuous(breaks = 2010:2016) +
   ggplot2::scale_y_continuous(breaks=seq(0,700,100))
 
-pdf("pubmed_review_ni.pdf")
+pdf("Review paper/pubmed_review_ni.pdf")
 g
 dev.off()
