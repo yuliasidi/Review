@@ -1,0 +1,73 @@
+id,M2,Power,Alpha.one.s,Alpha.one.s.c,p_C,p_T,S_F.rate,Allocation ,DO,Total.SS,PE.type,SS.calc,anal.CI,anal.p,comments,Miss.ass,Miss.report,Missing % for rand.,Miss.anal,Ni.decision,Analysis Set,Sens for miss
+4,0.050,0.90,0.025,,0.300,0.400,S,1:1,0.10,470,Difference,NA,"Mixed  GLM (link=identity, dist=bin, radnom=site )","Not specified, but presented",,NA,Y,0.04,NA,CI,ITT,"Y- mITT, PP"
+6,0.067,0.80,0.050,,0.033,NA,F,1:1,NA,178,RR,NA,Chi-square,FM,,NA,Y,0.16,NA,CI,ITT,N
+8,0.070,0.80,0.025,,0.180,NA,F,1:1,0.20,900,Difference,NA,"Mixed  GLM (link=logit, dist=bin, radnom=site )","Mixed  GLM (link=logit, dist=bin, radnom=site )",,"Assumed no missing, because in PP only 2 missing",Y,0.115,CCA,CI,PP,Y- ITT
+11,0.023,NA,0.025,D,NA,NA,S,1:1,NA,202,Difference,NA,MH,"Not specified, but presented","Mentions blined SS reestimation, and doesn't provide a lot of details about the SS estmation. No CONSORT diagram.",NA,N,0,NA,CI,ITT,N
+13,0.100,0.80,0.025,,NA,NA,S,1:1,NA,366,Difference,FM,FM,FM,,The article say that there was no missing daa,Y,0.014,NA,CI or p-value,ITT,Y-worst case
+19,0.100,NA,0.050,NM,0.950,NA,S,1:1,0.10,524,Difference,NA,Agresti- Caffo,Not presented,For primary analysis population- this study had special defition,NA,Y,0.27,NA,CI,Not ITT/PP,Y-MICE
+22,0.100,0.90,0.025,,0.150,NA,F,1:1:1,NA,680,Difference,NA,"GLM (link=identity, dist=bin )","Not specified, but presented","""Missing values were not imputed""",NA,Y,0.06,NA,CI/p-value,ITT,PP/worst case
+25,0.150,0.90,0.025,,0.800,0.800,S,1:1,NA,500,Difference,NA,Miettinen and Nurminen,"Not specified, but presented",,NA,Y,0.32,NA,CI,mITT,NA
+26,0.010,0.80,0.025,D,0.030,0.020,S,1:1,NA,2000,Difference,Newcomb-Wilson (5000 simulations),Not specified,"Not specified, but presented",,NA,N,0,NA,CI,ITT/PP,NA
+27,0.010,0.90,0.025,D,0.010,NA,F,1:1,0.01,3426,Difference,NA,Wald,Fisher's Exact,,NA,Y,0.001,NA,CI/p-value,ITT,NA
+30,0.100,0.80,0.025,,0.950,0.950,S,1:1,NA,200,Difference,NA,Profile likelihood,Not presented,,NA,Y,0.053,CCA,CI,ITT,NA
+35,0.150,0.80,0.025,,0.700,NA,S,1:1,0.15,340,Difference,NA,Newcombe-Wilson,Chi-square with fixed margins.,,NA,Y,0.068,Miissing assigned as failure,CI/p-value,ITT/PP,NA
+38,0.130,0.80,0.025,,0.940,0.890,S,2:1,NA,390,Difference,NA,Blackwelder,Blackwelder,,NA,Y,0.058,Missing assigned as failure,CI/p-value,mITT,NA
+39,0.060,0.80,0.050,NM,0.980,NA,S,2:1,0.10,171,Difference,NA,Not specified,"Not specified, but presented","primary analysis was not spcified, only general analysis",NA,Y,0.053,NA,CI,ITT/PP,NA
+41,0.105,0.85,0.025,,0.400,0.400,F,1:2,0.05,912,Difference,NA,FM,"Not specified, but presented",,NA,Y,0.043,CCA,CI,Not ITT/PP,Y- tipping point
+56,NA,0.90,0.025,,0.400,0.780,F,1:1,NA,80,Difference,NA,Not specified,Not presented,,NA,Y,0.1,NA,CI,ITT,NA
+59,0.150,0.80,0.050,,0.600,NA,S,1:1,0.20,317,Difference,Z-Test,Not specified,"Not specified, but presented",,NA,Y,0.2,NA,CI,PP,NA
+62,0.066,0.90,0.025,,0.200,NA,F,1:1,NA,800,Difference,NA,Not specified,Fisher's Exact,,NA,Y,0.055,LOCF,CI/p-value,mITT,NA
+69,0.000,0.90,0.025,D,NA,NA,S,1:1,NA,420,Difference,NA,CMH,CMH,,NA,Y,0.15,Missing assinged as failure,CI,ITT,"Y-LOCF, PP, unstratified method"
+71,0.200,0.90,0.050,NM,0.700,0.700,S,1:1,NA,116,Difference,NA,Linear mixed model,Linear mixed model,The PE was retenton on trt,NA,Y,0.34,NA,p-value,ITT,NA
+72,0.150,0.80,0.025,D,0.950,NA,S,1:1,0.20,66,Difference,NA,Not specified,Fisher's Exact,,NA,Y,0.076,NA,CI,ITT/PP,NA
+75,0.100,0.80,0.025,D,0.936,NA,S,1:1,NA,310,Difference,NA,Not specified,"Not specified, but presented",,NA,Y,0.001,NA,CI,PP,NA
+78,0.030,0.90,0.025,,0.100,NA,F,1:1,NA,5000,Difference,NA,Z-test,Z-test,"Sensitivity analysis is desribed as ""to examine the consistency of the treatment
+effect""",NA,Y,0.073,NA,CI/p-value,PP,Y-different population
+80,0.150,0.80,0.050,NM,0.900,NA,S,1:1,0.15,116,Difference,NA,Not specified,"Not specified, but presented",,NA,Y,0.095,NA,CI,PP,Y-worst case
+82,0.150,0.90,0.025,,0.800,NA,S,1:1:1,NA,1000,Difference,NA,Proportional weighted average,Not presented,PE was treatment completion,NA,NA,NA,NA,CI,ITT,NA
+99,0.140,NA,0.025,,0.670,NA,S,1:1,0.15,420,Difference,NA,Not specified,Not presented,,NA,Y,0.03,NA,CI,FAS/PP,NA
+102,0.100,0.80,0.025,,0.500,NA,S,1:1,0.05,206,OR,NA,"GLM (link=logit, dist=bin )",Not presented,,MCAR,Y,0.165,Missing assinged as failure,CI,PP,Y-CC analysis
+112,0.030,0.80,0.025,,0.100,0.100,F,1:1,NA,3140,Difference,NA,"Mixed  GLM (link=logit, dist=bin, radnom=site )",Chi-squre,,NA,Y,0.004,NA,CI,PP,NA
+114,0.700,0.80,0.025,,0.200,0.250,F,1:1,0.07,350,RR,NA,CMH,CMH,,NA,Y,0.047,NA,CI,ITT/FAS,NA
+119,0.033,0.90,0.050,,0.058,0.058,F,1:1,0.05,1906,RR,NA,FM,"Not specified, but presented",,NA,Y,0.014,NA,CI/p-value,ITT,NA
+121,0.100,0.80,0.050,,NA,NA,S,1:1:1,NA,1200,Difference,Wald,Not specified,Not presented,,NA,Y,0.166,Missing assinged as failure,CI,ITT/PP,NA
+124,0.150,0.80,0.100,,0.450,NA,S,1:1,NA,198,Difference,NA,Not specified,"Not specified, but presented",,NA,N,0,NA,CI,ITT,NA
+130,0.150,0.80,0.050,,0.600,NA,F,1:1,NA,115,Difference,NA,Not specified,"Not specified, but presented",,NA,Y,0.022,NA,CI/p-value,ITT,PP
+170,0.200,NA,0.050,D,NA,NA,S,1:1:1,NA,60,Difference,NA,Not specified,"Not specified, but presented",,NA,Y,0.179,NA,CI,ITT,NA
+171,0.150,0.87,0.025,,0.950,NA,S,1:1:1,NA,300,Difference,NA,Miettinen and Nurminen,Not presented,,NA,Y,0.023,NA,CI,Not ITT/PP,Y-other analysis set
+183,0.240,0.80,0.050,NM,0.625,NA,S,1:1,0.10,144,Difference,NA,Pearson or Fisher,Pearson or Fisher,,NA,Y,0.007,NA,CI,Not specified,NA
+186,0.060,0.90,0.025,D,NA,NA,NA,1:1:1:1,NA,NA,NA,NA,Exact,"Not specified, but presented",,NA,N,0,NA,p-value,ITT,NA
+193,0.100,0.80,0.025,D,0.400,0.400,S,1:1,0.06,800,Difference,NA,Newcombe,"""conversion of CIs""",DO in drop-out relates to % exclusion from the PP,NA,Y,0.098,Missing assinged as failure,CI/p-value,ITT/PP,NA
+196,0.100,0.80,0.050,NM,0.600,NA,S,1:1,NA,88,Difference,NA,Not presented,"Mixed  GLM (link=logit, dist=bin, radnom=site )",,NA,Y,0.138,NA,p-value,Not specified,NA
+213,0.100,0.90,0.050,,0.850,NA,S,1:1,0.40,712,Difference,NA,TTEST,"Not specified, but presented",,NA,Y,0.011,Missing assinged as failure for ITT,CI,PP/ITT,NA
+214,0.150,0.80,0.025,,0.100,NA,F,1:1,0.20,158,Difference,NA,"Not specified, but presented",Not presented,,NA,Y,0.184,LOCF,CI,ITT/PP,NA
+218,0.050,0.90,0.025,D,0.955,NA,S,1:1,0.20,904,Difference,NA,"GLM (link=identity, dist=bin )",Not presented,,NA,Y,0.112,NA,CI,mITT/PP,NA
+219,0.100,0.80,0.050,NM,0.030,NA,F,1:1,NA,320,Difference,NA,"Not specified, but presented",Not presented,The % missing is not straight forward- considered as non-missing,NA,N,0,NA,CI,ITT/PP,NA
+220,0.130,0.90,0.017,,0.350,0.350,S,1:1:1,NA,1080,Difference,NA,Wald,Not presented,,NA,Y,0.193,LOCF + Assign failure,CI,FAS,Y-PP
+230,0.070,0.80,0.025,,0.980,0.980,S,1:1,0.15,120,Difference,NA,"Not specified, but presented",Not presented,,NA,Y,0.016,NA,CI,CCA/PP,NA
+240,0.100,0.80,0.025,D,0.920,0.920,S,2:1,0.20,327,Difference,NA,Chi-square and Fisher Exact (no clear specification),Not presented,,NA,Y,0.064,NA,CI,mITT/PP,NA
+242,0.250,0.80,0.050,NM,0.650,NA,S,1:1,0.50,138,Difference,NA,Wilson,Not presented,,NA,Y,0.614,LOCF,CI,ITT,CCA 
+248,0.070,0.80,0.025,,NA,NA,NA,1:1,NA,NA,Difference,NA,Not presented,"Not specified, but presented",,NA,N,0,NA,p-value,PP,NA
+256,0.100,0.83,0.050,,0.950,0.850,S,1:1,NA,120,Difference,Z-Test,Wald+Wilson,Not presented,,NA,Y,0.017,Missing assinged as failure,CI,ITT/PP,NA
+262.1,0.050,0.95,0.025,D,NA,NA,S,1:1,NA,780,Difference,NA,MH,Not presented,,NA,Y,0.004,NA,CI,Not specified,NA
+262.2,0.100,0.80,0.025,D,0.830,NA,S,1:1,NA,100,Difference,NA,Exact Binomial test,Not presented,,NA,Y,0.01,NA,CI,Not specified,NA
+263,0.120,NA,0.025,D,NA,NA,NA,2:1,NA,NA,Difference,NA,Exact,"Not specified, but presented",,NA,Y,0.091,NA,CI,FAS,NA
+264,0.150,0.80,0.050,NM,0.900,NA,S,1:1,0.10,158,Difference,Wald,"Not specified, but presented",Wald,,NA,Y,0.165,CCA,CI/p-value,Not specified,NA
+269,0.100,0.80,0.025,,0.210,NA,F,1:1,NA,423,Difference,NA,Wald CC,"Not specified, but presented",,NA,Y,0.578,NA,CI,ITT/PP,NA
+271,0.150,0.82,0.050,,0.550,0.650,S,1:1,NA,100,Difference,NA,Miettinen and Nurminen,Wald,,NA,Y,0.27,Missing assinged as failure,CI,mITT,Y-ITT/PP
+272,0.100,0.94,0.050,,0.890,NA,S,1:1:1:1,0.03,824,Difference,NA,Newcombe-Wilson,Not presented,"p_C is .89, .96, .9",NA,Y,0.0012,NA,CI,PP,NA
+276,0.150,NA,0.025,D,NA,NA,NA,1:1,0.20,120,Difference,NA,Clopper-Pearson,Fisher's Exact,,NA,Y,0.059,NA,CI/p-value,PP,ITT- with LOCF
+284,0.200,0.80,0.025,D,0.020,0.016,F,1:1,0.05,9000,RR,NA,FM,"Not specified, but presented",,NA,Y,0.067,NA,CI,mPP,NA
+285,0.060,0.80,0.025,,0.950,NA,S,1:1,0.20,520,Difference,NA,"Not specified, but presented",Not presented,,MNAR,Y,0.15,NA,CI,ITT,Y-best/worst case
+291,0.100,0.90,0.025,,0.600,0.600,S,1:1,0.15,1182,Difference,FM,Wilson CC,Not presented,do rate is for PP exclusion,NA,Y,0.067,NA,CI,FAS/PP,NA
+299,0.150,0.90,0.025,D,0.300,NA,F,1:1,0.20,492,Difference,NA,"GLM (link=logit, dist=bin )",Not presented,,NA,Y,0.222,NA,CI,PP,FAS-worst case
+301,0.100,0.85,0.025,,0.950,0.950,S,1:1:1:1:1:1,0.15,600,Difference,NA,Clopper-Pearson,Fisher's Exact or Chi-square,,NA,Y,0.08,NA,CI,PP,NA
+307,0.050,0.80,0.025,D,0.867,0.867,S,1:1,0.03,1500,OR,NA,Chi-square,Not presented,,NA,Y,0.012,NA,CI,Not specified,NA
+321,0.050,0.91,0.025,,NA,NA,S,1:1:1,NA,1428,Difference,NA,Wald,Not presented,,NA,Y,0.059,NA,CI,ATP,NA
+324,0.075,0.90,0.025,,0.860,0.860,S,1:1,0.20,1130,Difference,NA,Newcombe,Not presented,,NA,Y,0.032,NA,CI,PP,NA
+326,0.200,0.80,0.025,,0.850,0.650,S,1:1,0.10,34,Difference,NA,Exact CI (R package–ExactCIdiff),Not presented,,NA,Y,0.176,MI,CI,ITT,Y-best/worst case
+328,0.100,0.80,0.050,NM,NA,NA,S,1:1,NA,520,Difference,NA,"Not specified, but presented",Not presented,,NA,Y,0.213,NA,CI,Not specified,NA
+330,0.140,0.90,0.025,D,0.950,NA,S,1:1,NA,100,Difference,NA,Wilson,Fisher's exact,,NA,Y,0.031,NA,CI,PP,NA
+331,0.200,0.90,0.050,NM,NA,0.060,F,1:1,0.10,66,Difference,NA,"Not specified, but presented",Not presented,,NA,Y,0.076,NA,CI,Not specified,NA
+332,0.100,0.90,0.025,,NA,NA,S,1:1,0.15,732,Difference,Wilson,Wilson,Not presented,,NA,Y,0.179,NA,CI,FAS/PP,NA
+227,0.180,0.90,0.025,,NA,0.890,S,1:1,NA,128,Difference,NA,"Not specified, but presented","Not specified, but presented",,NA,Y,0.059,NA,CI/pvalue,ITT/PP,NA
