@@ -18,7 +18,6 @@ pe <- pe%>%
                               grepl("Miettinen and Nurminen|FM",anal.CI) ~ "Farrington-Manning",
                               grepl("GLM|Linear mixed model",anal.CI) ~ "GLM",
                               grepl("Z-test|Wald|Blackwelder",anal.CI) ~ "Wald",
-                              #anal.CI =="Clopper-Pearson" ~ "Exact",
                               grepl("MH",anal.CI) ~ "CMH/MH",
                               TRUE ~ as.character(anal.CI)))%>%
   mutate(anal.CI2 = case_when(grepl("Agresti|Profile|average|TTEST",anal.CI1) ~ "Other*",
@@ -113,6 +112,7 @@ pe <- pe%>%
                          Allocation=='1:1:1'     ~ 'Equal allocation',
                          Allocation=='1:1:1:1'   ~ 'Equal allocation',
                          Allocation=='1:1:1:1:1' ~ 'Equal allocation',
+                         Allocation=='1:1:1:1:1:1' ~ 'Equal allocation',
                          TRUE ~ 'Other'))
                          
 # Summary of PE type (Difference, ratio, odds ratio)
