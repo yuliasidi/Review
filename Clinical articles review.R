@@ -1,9 +1,8 @@
-
 library(dplyr)
 library(xtable)
 library(reshape2)
 
-pe <- readr::read_csv("Proportions PE Methods in practice refined.csv")
+pe <- readr::read_csv("Proportions PE Methods in practice final.csv")
 
 pe <- pe%>%
   mutate(SS.calc1 = case_when(SS.calc == "Newcomb-Wilson (5000 simulations)" ~ "Newcombe",
@@ -123,12 +122,6 @@ pe%>%
   mutate(p=paste0(round(100 * n/sum(n), 0), "%"))
 # 90% used proportion difference, report the following results only for that.
 
-
-pe%>%
-  group_by(SS.calc)%>%
-  summarise (n=n())%>%
-  mutate(p=paste0(round(100 * n/sum(n), 0), "%"))
-
 ###########
 # Table 1 #
 ###########
@@ -146,27 +139,14 @@ ss.method <- ss.method%>% dplyr::mutate(
   dplyr::arrange(id)%>%
   dplyr::select(m,SS.calc1,n,p)%>%
   rename(var = SS.calc1)
-
 #texPreview::texPreview(xtable(ss.method))
 
 # Summary of margins used, when PE type is proportions difference
-
-# anal.M2 <- pe%>%
-#   filter(PE.type == "Difference")%>%
-#   group_by(M2.1)%>%
-#   summarise(n=n())%>%
-#   mutate(p=paste0(round(100 * n/sum(n),0), "%"))%>%
-#   arrange(M2.1)
-# 
-# xtable(anal.M2)
-
 anal.M22 <- pe%>%
   group_by(M2.2)%>%
   summarise(n=n())%>%
   mutate(p=paste0(round(100 * n/sum(n),0), "%"))%>%
   arrange(M2.2)
-
-texPreview::texPreview(xtable(anal.M22))
 
 anal.M22 <- anal.M22%>%mutate(
   m = rep("Margin", length(n)),
@@ -175,13 +155,12 @@ anal.M22 <- anal.M22%>%mutate(
   arrange(id)%>%
   select(m,M2.2, n,p)%>%
   rename(var = M2.2)
+#texPreview::texPreview(xtable(anal.M22))
 
 anal.p_C2 <- pe%>%
   group_by(p_C2)%>%
   summarise(n=n())%>%
   mutate(p=paste0(round(100 * n/sum(n),0), "%"))
-
-#texPreview::texPreview(xtable(anal.p_C2))
 
 anal.p_C2 <- anal.p_C2%>%mutate(
   m = rep("Event proportion- standard treatment",length(n)),
@@ -190,10 +169,10 @@ anal.p_C2 <- anal.p_C2%>%mutate(
   arrange(id)%>%
   select(m, p_C2,n,p)%>%
   rename(var = p_C2)
-  
+#texPreview::texPreview(xtable(anal.p_C2))
+
 
 anal.DO <- pe%>%
-  #filter(PE.type == "Difference")%>%
   group_by(DO1)%>%
   summarise(n=n())%>%
   mutate(p=paste0(round(100 * n/sum(n),0), "%"))
@@ -205,7 +184,6 @@ anal.DO <- anal.DO%>%dplyr::mutate(
   dplyr::arrange(id)%>%
   dplyr::select(m,DO1,n,p)%>%
   rename(var = DO1)
-
 #texPreview::texPreview(xtable(anal.DO))
 
 
@@ -215,8 +193,6 @@ anal.p_T <- pe%>%
   summarise(n = n())%>%
   mutate(p = paste0(round(100 * n/sum(n), 0), "%"))
 
-#texPreview::texPreview(xtable(anal.p_T))
-
 anal.p_T <- anal.p_T%>%mutate(
   m = rep("Event proportion- new treatment",length(n)),
   id = c(3,2,1)
@@ -224,15 +200,14 @@ anal.p_T <- anal.p_T%>%mutate(
   arrange(id)%>%
   select(m,p_T1,n,p)%>%
   rename(var = p_T1)
+#texPreview::texPreview(xtable(anal.p_T))
+
 
 # One-sided alpha level summary
 alpha.one <- pe%>%
-  #filter(PE.type=="Difference")%>%
   group_by(Alpha.one.s1)%>%
   summarise(n = n())%>%
   mutate(p = paste0(round(100 * n/sum(n), 0), "%"))
-
-#texPreview::texPreview(xtable(alpha.one))
 
 alpha.one <- alpha.one%>%mutate(
   m = rep("Type-I error", length(n)),
@@ -241,23 +216,13 @@ alpha.one <- alpha.one%>%mutate(
   arrange(id)%>%
   select(m, Alpha.one.s1, n, p)%>%
   rename(var = Alpha.one.s1)
+#texPreview::texPreview(xtable(alpha.one))
 
 # Power level summary
-# pow <- pe%>%
-#   filter(PE.type=="Difference")%>%
-#   group_by(Power)%>%
-#   summarise(n = n())%>%
-#   mutate(p = paste0(round(100 * n/sum(n), 0), "%"))
-# 
-# xtable(pow)
-
 pow1 <- pe%>%
-  #filter(PE.type=="Difference")%>%
   group_by(Power1)%>%
   summarise(n = n())%>%
   mutate(p = paste0(round(100 * n/sum(n), 0), "%"))
-
-#texPreview::texPreview(xtable(pow1))
 
 pow1 <- pow1%>%mutate(
   m = rep("Power",length(n)),
@@ -266,9 +231,10 @@ pow1 <- pow1%>%mutate(
   arrange(id)%>%
   select(m, Power1, n, p)%>%
   rename(var = Power1)
+#texPreview::texPreview(xtable(pow1))
 
+#Allocation ratio
 allr <- pe%>%
-  #filter(PE.type=="Difference")%>%
   group_by(alloc)%>%
   summarise(n = n())%>%
   mutate(p = paste0(round(100 * n/sum(n), 0), "%"))
@@ -280,6 +246,7 @@ allr <- allr%>%mutate(
   arrange(id)%>%
   select(m, alloc, n, p)%>%
   rename(var = alloc)
+#texPreview::texPreview(xtable(allr))
 
 # COMBINE THE ABOVE INTO ONE TABLE
 table1 <- ss.method%>%bind_rows(anal.M22, anal.p_C2, anal.p_T, anal.DO, alpha.one, pow1, allr)
@@ -327,78 +294,11 @@ pixiedust::dust()%>%
   myfun%>%
   cat(file = 'Review Paper/table1.tex')
 
-#########################
-# TABLEs- other options #
-#########################
-M.sum <- pe%>%filter(PE.type == "Difference")%>%
-  summarise(min = min(M2, na.rm = T),
-            '10%' = quantile(M2, probs = 0.1 , na.rm = T),
-            '25%' = quantile(M2, probs = 0.25, na.rm = T),
-            '50%' = quantile(M2, probs = 0.5 , na.rm = T),
-            '75%' = quantile(M2, probs = 0.75, na.rm = T),
-            '90%' = quantile(M2, probs = 0.9 , na.rm = T),
-            max = max(M2, na.rm = T))
-
-M.sum.melt <- reshape2::melt(M.sum)%>%
-  rename(Margin=value)
-
-# Summary of p_C when it id defined as probability of success, when PE type is prop. difference
-p_C.sum <- pe%>%filter(PE.type == "Difference")%>%
-  summarise(min = min(p_C1, na.rm = T),
-            '10%' = quantile(p_C1, probs = 0.1 , na.rm = T),
-            '25%' = quantile(p_C1, probs = 0.25, na.rm = T),
-            '50%' = quantile(p_C1, probs = 0.5 , na.rm = T),
-            '75%' = quantile(p_C1, probs = 0.75, na.rm = T),
-            '90%' = quantile(p_C1, probs = 0.9 , na.rm = T),
-            max = max(p_C1, na.rm = T))
-p_C.sum.melt <- reshape2::melt(p_C.sum)%>%
-  rename(p_C=value)
-
-M.p_C.sum <- inner_join(M.sum.melt, p_C.sum.melt, by = "variable")
-
-xtable(M.p_C.sum)
-
-
-DO.sum <- pe%>%filter(PE.type == "Difference")%>%
-  summarise(min = min(DO, na.rm = T),
-            '10%' = quantile(DO, probs = 0.1 , na.rm = T),
-            '25%' = quantile(DO, probs = 0.25, na.rm = T),
-            '50%' = quantile(DO, probs = 0.5 , na.rm = T),
-            '75%' = quantile(DO, probs = 0.75, na.rm = T),
-            '90%' = quantile(DO, probs = 0.9 , na.rm = T),
-            max = max(DO, na.rm = T))
-
-DO.sum.melt <- reshape2::melt(DO.sum)%>%
-  rename(DO=value)
-M.p_C.DO.sum <- inner_join(M.p_C.sum, DO.sum.melt, by = "variable")
-
-xtable(M.p_C.DO.sum)
-
-# Missing reporting for margin/p_C/DO rate
-pe.miss <- pe%>%mutate(M2.miss = is.na(M2), p_C.miss = is.na(p_C), DO.miss = is.na(DO))
-
-pe.miss%>% filter(PE.type=="Difference")%>%
-  group_by(M2.miss)%>%
-  summarise(n = n())%>%
-  mutate(p=n/sum(n))
-
-pe.miss%>% filter(PE.type=="Difference")%>%
-  group_by(p_C.miss)%>%
-  summarise(n = n())%>%
-  mutate(p=n/sum(n))
-
-pe.miss%>% filter(PE.type=="Difference")%>%
-  group_by(DO.miss)%>%
-  summarise(n = n())%>%
-  mutate(p=n/sum(n))
-
-
-
-
 ###########
 # Table 2 #
 ###########
 
+#NI decision
 NI.dec <- pe%>%
   group_by(Ni.decision1)%>%
   summarise (n=n())%>%
@@ -411,7 +311,6 @@ NI.dec <- NI.dec%>%mutate(
   rename(var = Ni.decision1)%>%
   arrange(id)%>%
   select(m, var, n, p)
-
 #texPreview::texPreview(xtable(NI.dec))
 
 # Summary CI methods used in analysis
@@ -427,7 +326,6 @@ anal.CI.sum <- anal.CI.sum%>%mutate(
 )%>%
   rename(var= anal.CI2)%>%
   select(m, var, n, p)
-
 #texPreview::texPreview(xtable(anal.CI.sum))
 
 # Summary p-value methods in analysis
@@ -448,7 +346,6 @@ anal.p.sum <- anal.p.sum%>%mutate(
 #texPreview::texPreview(xtable(anal.p.sum))
 
 #Analysis set
-
 anal.set <-pe%>%
   group_by(set)%>%
   summarise(n = n())%>%
@@ -464,7 +361,6 @@ anal.set <- anal.set%>%mutate(
 #texPreview::texPreview(xtable(anal.set))
 
 #Reporting any missing data
-
 miss.rep <- pe%>%
   group_by(Miss.report1)%>%
   summarise(n = n())%>%
@@ -513,7 +409,6 @@ table2%>%
   myfun%>%
   cat(file = 'Review Paper/table2.tex')
 
-
 ###########
 # Table 3 #
 ###########
@@ -546,7 +441,6 @@ anal.miss.ass <- anal.miss.ass%>%mutate(
   select(m, var, n, p)
 #texPreview::texPreview(xtable(anal.miss.ass))  
 
-
 # Incomplete data analysis
 anal.miss.anal <- pe%>%filter(Miss.report1=="Yes")%>%
   group_by(Miss.anal1)%>%
@@ -560,7 +454,6 @@ anal.miss.anal <- anal.miss.anal%>%mutate(
   arrange(id)%>%
   select(m, var, n, p)
 #texPreview::texPreview(xtable(anal.miss.anal))  
-
 
 # Sensitivity for missing
 anal.miss.sens <- pe%>%filter(Miss.report1=="Yes")%>%
