@@ -114,7 +114,7 @@ pe <- pe%>%
                          Allocation=='1:1:1:1:1' ~ 'Equal allocation',
                          Allocation=='1:1:1:1:1:1' ~ 'Equal allocation',
                          TRUE ~ 'Other'))
-                         
+#saveRDS(pe,"pe.rds")                         
 # Summary of PE type (Difference, ratio, odds ratio)
 pe%>%
   group_by(PE.type)%>%
