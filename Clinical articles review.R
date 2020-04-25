@@ -1,6 +1,8 @@
-library(dplyr)
-library(xtable)
-library(reshape2)
+library(dplyr, warn.conflicts = FALSE, quietly = TRUE)
+library(xtable, warn.conflicts = FALSE, quietly = TRUE)
+library(reshape2, warn.conflicts = FALSE, quietly = TRUE)
+library(ggplot2, warn.conflicts = FALSE, quietly = TRUE)
+library(tidyverse, warn.conflicts = FALSE, quietly = TRUE)
 
 pe <- readr::read_csv("Proportions PE Methods in practice final.csv")
 
@@ -41,7 +43,7 @@ pe <- pe%>%
                           0.25  < M2              ~ ">25%",
                           is.na(M2)==T~ "Not reported"))%>%
   mutate(M2.2 = case_when(M2 <= 0.05              ~ " M <= 5%"  ,
-                          0.05  < M2 & M2 <= 0.075 ~ "5%   < M <= 7.5%"  ,
+                          0.05  < M2 & M2 <= 0.075 ~ "5%     < M <= 7.5%"  ,
                           0.075 < M2 & M2 <= 0.1   ~ "7.5% < M <= 10%"   ,
                           0.01  < M2 & M2 <= 0.15  ~ "10%  < M <= 15%" ,
                           0.125 < M2 & M2 <= 0.15  ~ "12.5%< M <= 15%"   ,
@@ -114,6 +116,67 @@ pe <- pe%>%
                          Allocation=='1:1:1:1:1' ~ 'Equal allocation',
                          Allocation=='1:1:1:1:1:1' ~ 'Equal allocation',
                          TRUE ~ 'Other'))
+
+####################################################
+### additional modification following SBR review ###
+####################################################
+
+#article 262.2 is excluded, the paper contains two clinical trials: NI and superiority
+pe <- pe %>%
+  dplyr::filter(id !=262.2)
+
+pe <- pe %>%
+  dplyr::mutate(m2_rel = (p_C1 - M2)/p_C1,
+                m2_rel_new = case_when(0.6 < m2_rel & m2_rel <= 0.7 ~ '60-70%',
+                                       0.7 < m2_rel & m2_rel <= 0.8 ~ '70-80%',
+                                       0.8 < m2_rel & m2_rel <= 0.9 ~ '80-90%',
+                                       0.9 < m2_rel  ~ '90% and above',
+                                       M2 == 0.7 ~ 'Not reported/Other',
+                                       is.na(m2_rel) ~ 'Not reported/Other'),
+                M2_just_new = case_when(M2_just %in% c('clinical discussions',
+                                              'expert consensus group meeting',
+                                              'experts survey',
+                                              'group of clinicians',
+                                              "investigator's judgement") ~
+                                      'Clinical experts',
+                                    M2_just %in% c('FDA guidline',
+                                                   'Regulatory guideline') ~
+                                      'Regulatory guideline',
+                                    is.na(M2_just) ~ 'Not reported/Other',
+                                    M2 == 0.7 ~ 'Not reported/Other',
+                                    M2_just == 'no' ~ 'No justification',
+                                    M2_just %in% c('past studies', 'based on past litrature') ~ 'Past studies',
+                                    M2_just == 'new treatment benefits' ~ 'New treatment benefits',
+                                    M2_just == 'field consideration' ~ 'Field consideration'),
+                TA_new = case_when(TA == 'cancer' ~ 'Cancer',
+                                   TA %in% c('cardiovascular',
+                                   'thrombosis') ~ 'Cardiology',
+                                   TA %in% c('infection', 'hiv', 'malaria',
+                                             'vaccine', 'tb') ~ 
+                                     'Infectious disease and vaccines',
+                                   TA %in% c('dermathoogy/pediatrics',
+                                             'gynecology') ~ 
+                                     'Obstetrics, gynecology, and urology',
+                                   TA == 'gastro' ~ 'Gastroenterology',
+                                   TA %in% c('stress urinary incontinence',
+                                             'urinary tract infection',
+                                             'kidneys', 'liver') ~ 'Other internal medicine',
+                                   #TA == 'surgery preparation' ~ 'Surgery',
+                                   TA %in% c('ra', 'autoimmune') ~ 'Autoimmune	disease',
+                                  TRUE ~ 'Other'),
+                sponsor_new = case_when(sponsor == 'pharma' ~ 'Pharmacutical company',
+                                        is.na(sponsor) ~ 'Not reported',
+                                        TRUE ~ 'Government/Research grants'),
+                type_new = case_when(type == 'treatment' ~ 'Drug',
+                                     type == 'device' ~ 'Device',
+                                     type == 'vaccine' ~ 'Vaccine',
+                                     type == 'treatment strategy' ~ 'Treatment strategy',
+                                     type == 'surgical intervention' ~ 'Surgical intervention',
+                                     TRUE ~ 'Other'))
+
+
+
+
 #saveRDS(pe,"pe.rds")                         
 # Summary of PE type (Difference, ratio, odds ratio)
 pe%>%
@@ -121,6 +184,18 @@ pe%>%
   summarise (n=n())%>%
   mutate(p=paste0(round(100 * n/sum(n), 0), "%"))
 # 90% used proportion difference, report the following results only for that.
+
+#number of papers with protocols
+pe %>%
+  group_by(protocol) %>%
+  summarise (n=n())%>%
+  mutate(p=paste0(round(100 * n/sum(n), 0), "%"))
+
+pe %>%
+  group_by(sponsor_new) %>%
+  summarise (n=n())%>%
+  mutate(p=paste0(round(100 * n/sum(n), 0), "%"))
+
 
 ###########
 # Table 1 #
@@ -156,6 +231,48 @@ anal.M22 <- anal.M22%>%mutate(
   select(m,M2.2, n,p)%>%
   rename(var = M2.2)
 #texPreview::texPreview(xtable(anal.M22))
+
+#relative margin
+rel.m2 <- pe %>%
+  group_by(m2_rel_new) %>%
+  summarise(n=n()) %>%
+  mutate(p=paste0(round(100 * n/sum(n),0), "%"),
+         m = 'Margin relative to the standard treatment')%>%
+  rename(var = m2_rel_new)%>%
+  select(m, var, n, p)
+
+#determination of m2
+det.m2 <- pe %>%
+  group_by(M2_just_new) %>%
+  summarise(n=n()) %>%
+  mutate(p=paste0(round(100 * n/sum(n),0), "%"),
+         id = c(3,6,5,1,7,2,4),
+         m = 'Margin justification')%>%
+  arrange(id)%>%
+  rename(var = M2_just_new)%>%
+  select(m, var, n, p)
+
+#TA
+ta <- pe %>%
+  group_by(TA_new) %>%
+  summarise(n=n()) %>%
+  mutate(p=paste0(round(100 * n/sum(n),0), "%"),
+         id = c(6,3,2,4,1,5,8,7),
+         m = 'Therapeutic area')%>%
+  arrange(id)%>%
+  rename(var = TA_new)%>%
+  select(m, var, n, p)
+
+# what is being investigated
+trt_type <- pe %>%
+  group_by(type_new) %>%
+  summarise(n=n()) %>%
+  mutate(p=paste0(round(100 * n/sum(n),0), "%"),
+         id = c(3,1,6,4,5,2),
+         m = 'Treatment type')%>%
+  arrange(id)%>%
+  rename(var = type_new)%>%
+  select(m, var, n, p)
 
 anal.p_C2 <- pe%>%
   group_by(p_C2)%>%
@@ -249,20 +366,22 @@ allr <- allr%>%mutate(
 #texPreview::texPreview(xtable(allr))
 
 # COMBINE THE ABOVE INTO ONE TABLE
-table1 <- ss.method%>%bind_rows(anal.M22, anal.p_C2, anal.p_T, anal.DO, alpha.one, pow1, allr)
+table1 <- ss.method%>%bind_rows(anal.M22, rel.m2, det.m2, ta, trt_type,
+                                anal.p_C2, anal.p_T, anal.DO,
+                                alpha.one, pow1, allr)
 
 myfun <- function(x) gsub('\\\\&','&',x)  
 
 table1%>%
 pixiedust::dust()%>%
-  pixiedust::sprinkle_border(rows = c(1,5,12,19,22,27,30,34),
+  pixiedust::sprinkle_border(rows = c(1,5,12,17,24,32,38,45,48,53,56,60),
                              border = c('top')
                              )%>%
-  pixiedust::sprinkle_border(rows = c(35),
+  pixiedust::sprinkle_border(rows = c(47),
                              border = c('bottom')
   )%>%
   pixiedust::sprinkle_colnames(m='',var='',p='%')%>%
-  pixiedust::sprinkle_caption('Study design attributes (n=71)')%>%
+  pixiedust::sprinkle_caption('Study design attributes (n=70)')%>%
   pixiedust::sprinkle_label('tab1')%>%
   pixiedust::sprinkle(rows = 1:4,
                       cols = 1,
@@ -270,22 +389,34 @@ pixiedust::dust()%>%
   pixiedust::sprinkle(rows = 5:11,
                       cols = 1,
                       merge = TRUE)%>%
-  pixiedust::sprinkle(rows = 12:18,
+  pixiedust::sprinkle(rows = 12:16,
                       cols = 1,
                       merge = TRUE)%>%
-  pixiedust::sprinkle(rows = 19:21,
+  pixiedust::sprinkle(rows = 17:23,
                       cols = 1,
                       merge = TRUE)%>%
-  pixiedust::sprinkle(rows = 22:26,
+  pixiedust::sprinkle(rows = 24:31,
                       cols = 1,
                       merge = TRUE)%>%
-  pixiedust::sprinkle(rows = 27:29,
+  pixiedust::sprinkle(rows = 32:37,
                       cols = 1,
                       merge = TRUE)%>%
-  pixiedust::sprinkle(rows = 30:33,
+  pixiedust::sprinkle(rows = 38:44,
                       cols = 1,
                       merge = TRUE)%>%
-  pixiedust::sprinkle(rows = 34:35,
+  pixiedust::sprinkle(rows = 45:47,
+                      cols = 1,
+                      merge = TRUE)%>%
+  pixiedust::sprinkle(rows = 48:52,
+                      cols = 1,
+                      merge = TRUE)%>%
+  pixiedust::sprinkle(rows = 53:55,
+                      cols = 1,
+                      merge = TRUE)%>%
+  pixiedust::sprinkle(rows = 56:59,
+                      cols = 1,
+                      merge = TRUE)%>%
+  pixiedust::sprinkle(rows = 60:61,
                       cols = 1,
                       merge = TRUE)%>%
   pixiedust::sprinkle_print_method('latex')%>%
@@ -499,3 +630,52 @@ table3%>%
   pixiedust::sanitize_latex()%>%
   myfun%>%
   cat(file = 'Review Paper/table3.tex')
+
+
+####################################
+#### Additional data evaluation ####
+####################################
+
+m2_by_ta <- 
+  pe %>%
+  filter(M2.2 != 'Not reported/Other') %>%
+  mutate(TA_new = fct_reorder(TA_new, M2, .fun='median')) %>%
+  ggplot( aes(x=reorder(TA_new, M2), y=M2, fill=TA_new)) + 
+  geom_boxplot() +
+  labs(x = "Therapeutic area", y = 'Margin') +
+  theme_classic() +
+  theme(legend.position = 'none') +
+  scale_x_discrete(labels = c('Cardio', 'Cancer', 'Inf/Vac', 'OBGYN/U',
+                              'Gastro', 'Other', 'Other IM', 'Autoim'
+                              ))
+
+pdf('Review Paper/m2_by_ta.pdf')
+m2_by_ta
+dev.off()
+
+
+#target SS per sponsor
+ss_by_sponsor <- pe %>%
+  filter(sponsor_new != 'Not reported') %>%
+  ggplot(aes(x = sponsor_new, y = Total.SS)) + 
+  geom_boxplot() +
+  labs(x = 'Sponsor', y = 'Target sample size') +
+  theme_classic() 
+
+pdf('Review Paper/ss_by_sponsor.pdf')
+ss_by_sponsor
+dev.off() 
+
+
+m2_by_pc <- pe %>%
+  filter(M2!=0.7)%>%
+  ggplot(aes(x = p_C1, y = M2)) +
+  geom_point() +
+  labs(y = 'Margin',
+       x = 'Event proportion, standard treatment') +
+  theme_bw()
+
+pdf('Review Paper/m2_by_pc.pdf')
+m2_by_pc
+dev.off() 
+
