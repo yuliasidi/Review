@@ -22,13 +22,13 @@ pe <- pe%>%
                               grepl("Z-test|Wald|Blackwelder",anal.CI) ~ "Wald",
                               grepl("MH",anal.CI) ~ "CMH/MH",
                               TRUE ~ as.character(anal.CI)))%>%
-  mutate(anal.CI2 = case_when(grepl("Agresti|Profile|average|TTEST",anal.CI1) ~ "Other*",
+  mutate(anal.CI2 = case_when(grepl("Agresti|Profile|average|TTEST",anal.CI1) ~ "Other",
                               TRUE ~ as.character(anal.CI1)))%>%
   mutate(anal.p1 = case_when(grepl("Fisher|Chi",anal.p) ~ "Fisher's Exact/Chi-Square",
                              grepl("GLM|Linear mixed model",anal.p) ~ "GLM",
                              grepl("Wald|Z-test|Blackwelder",anal.p) ~ "Wald",
                              #anal.p=="FM" ~ "Farrington-Manning",
-                             grepl("CI|FM",anal.p) ~ "Other*",
+                             grepl("CI|FM",anal.p) ~ "Other",
                              TRUE ~ as.character(anal.p)))%>%
   mutate(M2.1 = case_when(M2 <= 0.025              ~ "0   < M <= 2.5%"  ,
                           0.025 < M2 & M2 <= 0.05  ~ "2.5 < M <= 5%"    ,
@@ -373,7 +373,7 @@ table1 <- ss.method%>%bind_rows(anal.M22, rel.m2, det.m2, ta, trt_type,
 myfun <- function(x) gsub('\\\\&','&',x)  
 
 table1%>%
-pixiedust::dust()%>%
+pixiedust::dust(longtable = TRUE)%>%
   pixiedust::sprinkle_border(rows = c(1,5,12,17,24,32,38,45,48,53,56,60),
                              border = c('top')
                              )%>%
@@ -517,7 +517,7 @@ table2%>%
                              border = c('bottom')
   )%>%
   pixiedust::sprinkle_colnames(m='',var='',p='%')%>%
-  pixiedust::sprinkle_caption('Study analysis attributes (n=71)')%>%
+  pixiedust::sprinkle_caption('Study analysis attributes (n=70)')%>%
   pixiedust::sprinkle_label('tab2')%>%
   pixiedust::sprinkle(rows = 1:3,
                       cols = 1,
@@ -611,7 +611,7 @@ table3%>%
                              border = c('bottom')
   )%>%
   pixiedust::sprinkle_colnames(m='',var='',p='%')%>%
-  pixiedust::sprinkle_caption('Incomplete data amount and handling (n=64)')%>%
+  pixiedust::sprinkle_caption('Incomplete data amount and handling (n=63)')%>%
   pixiedust::sprinkle_label('tab3')%>%
   pixiedust::sprinkle(rows = 1:5,
                       cols = 1,
@@ -679,3 +679,29 @@ pdf('Review Paper/m2_by_pc.pdf')
 m2_by_pc
 dev.off() 
 
+
+ss_target_acc <- pe %>% 
+  mutate(ss = (Total.SS - ss_rand)/Total.SS) %>% 
+  ggplot(aes(ss)) +
+  geom_histogram(bins = 15, color = 'black', fill = 'white') +
+  labs(y = 'Number of studies', 
+       x = 'Target vs randomized sample size % difference' ) +
+  theme_classic()
+
+pdf('Review Paper/ss_target_acc.pdf')
+ss_target_acc
+dev.off() 
+
+#regulatory guidance
+table(pe$reg_guide_quote)
+
+# tmp <- pe %>% 
+#   select(id, M2, M2_comp, p_diff_ci, M2.2, Ni.decision1) %>% 
+#   mutate(p_diff_ci = as.numeric(p_diff_ci), 
+#          m2_ass_act = ifelse(grepl('above', M2_comp)>0, 
+#                              (M2 - p_diff_ci), (p_diff_ci - M2)))
+# 
+# tmp %>% filter(M2_comp != 'not clear', !is.na(M2_comp), M2.2 != 'Not reported/Other',
+#                grepl('CI', Ni.decision1)>0 ) %>%
+#   ggplot(aes(x = m2_ass_act)) +
+#   geom_histogram()
