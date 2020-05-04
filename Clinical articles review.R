@@ -237,7 +237,7 @@ rel.m2 <- pe %>%
   group_by(m2_rel_new) %>%
   summarise(n=n()) %>%
   mutate(p=paste0(round(100 * n/sum(n),0), "%"),
-         m = 'Margin relative to the standard treatment')%>%
+         m = 'Margin as proportion of standard treatment response')%>%
   rename(var = m2_rel_new)%>%
   select(m, var, n, p)
 
@@ -377,7 +377,7 @@ pixiedust::dust(longtable = TRUE)%>%
   pixiedust::sprinkle_border(rows = c(1,5,12,17,24,32,38,45,48,53,56,60),
                              border = c('top')
                              )%>%
-  pixiedust::sprinkle_border(rows = c(47),
+  pixiedust::sprinkle_border(rows = c(61),
                              border = c('bottom')
   )%>%
   pixiedust::sprinkle_colnames(m='',var='',p='%')%>%
@@ -425,7 +425,7 @@ pixiedust::dust(longtable = TRUE)%>%
   myfun%>%
   cat(file = 'Review Paper/table1.tex')
 
-###########
+  ###########
 # Table 2 #
 ###########
 
